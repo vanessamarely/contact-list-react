@@ -26,11 +26,10 @@ class App extends Component {
   }
 
   addFavorites(contact) {
-    let favoriteList = this.state.favorites;
-    favoriteList.push(contact);
-    this.setState({
-      favorites: favoriteList
-    });
+    let favoriList = this.state.favorites;
+    favoriList.push(contact);
+    let filteredArray = this.state.all.filter(item => item !== contact)
+    this.setState({ all: filteredArray, favorites: favoriList});
   }
 
   render() {
@@ -47,7 +46,7 @@ const ContactList = (props) => {
   return (
     <div className="contact-list">
       <h2> { props.title }</h2>
-      { props.contacts.map( contact => <ContactCard key={contact.name.first} contact={contact} addFavorites={props.addFavorites} /> ) }
+      { props.contacts.map( (contact, index) => <ContactCard key={index} contact={contact} addFavorites={props.addFavorites} /> ) }
     </div>
   );
 };
@@ -69,7 +68,7 @@ class ContactCard extends React.Component {
       <div className="contact-card">
         <figure >
           <img src={ this.props.contact.picture.medium } />
-          <figcaption>{ this.props.contact.name.first }</figcaption>
+          <figcaption>{ this.props.contact.name.first } { this.props.contact.name.last }</figcaption>
         </figure>
         <button onClick={this.onClickFavorites}>Favorito</button>
         <button>Eliminar</button>
